@@ -64,8 +64,6 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v4
-        env:
-          VERSION: ${{ env.VERSION }}
         with:
           context: .
           file: ./Dockerfile
@@ -73,6 +71,7 @@ jobs:
           push: ${{ env.PUSH == 'true' }}
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/gerev:${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/gerev:${{ env.VERSION }}
             ${{ steps.login-ecr.outputs.registry }}/gerev:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
