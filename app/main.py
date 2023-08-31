@@ -63,7 +63,7 @@ def _check_for_new_documents(force=False):
         data_sources: List[DataSource] = session.query(DataSource).all()
         for data_source in data_sources:
             # data source should be checked once every hour
-            if (get_utc_time_now() - data_source.last_indexed_at).total_seconds() <= 60 * 60 and not force:
+            if (get_utc_time_now() - data_source.last_indexed_at.astimezone()).total_seconds() <= 60 * 60 and not force:
                 continue
 
             logger.info(f"Checking for new docs in {data_source.type.name} (id: {data_source.id})")
